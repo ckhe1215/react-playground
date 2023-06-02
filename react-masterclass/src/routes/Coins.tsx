@@ -7,6 +7,8 @@ import Loader from "../components/Loader";
 import Title from "../components/Title";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const CoinsList = styled.ul``;
 
@@ -45,17 +47,15 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {
-  toggleDark: () => void;
-}
-
-function Coins({ toggleDark }: ICoinsProps) {
+function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
       <Header>
         <Title>코인</Title>
-        <button onClick={toggleDark}>Toggle Dark Mode</button>
+        <button onClick={toggleDarkAtom}>Toggle Dark Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
