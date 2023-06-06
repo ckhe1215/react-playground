@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { createGlobalStyle } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { RecoilRoot } from "recoil";
+import { darkTheme } from "./theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -61,19 +62,22 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: 'Source Sans Pro', sans-serif;
-    background-color: #2f3640;
-    color: white;
+    background-color: ${(props) => props.theme.bgColor};
+    color: black;
   }
   a{
     text-decoration: none;
     color: inherit;
   }
 `;
+
 root.render(
-  <React.StrictMode>
-    <GlobalStyle />
+  <>
     <RecoilRoot>
-      <App />
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
     </RecoilRoot>
-  </React.StrictMode>
+  </>
 );
