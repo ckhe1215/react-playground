@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { styled } from "styled-components";
-import { IGetMoviesResult } from "../api";
+import { IGetMoviesResult, IMovie } from "../api";
 import { makeImagePath } from "../utils";
 
 const Overlay = styled(motion.div)`
@@ -49,15 +49,15 @@ const BigOverview = styled.p`
   color: ${(props) => props.theme.white.lighter};
 `;
 
-export default function ContentsBox({ data }: { data?: IGetMoviesResult }) {
+export default function ContentsBox({ data }: { data?: IMovie[] }) {
   const history = useHistory();
   const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
-  const onOverlayClicked = () => history.push("/");
+  const onOverlayClicked = () => {
+    history.push("/");
+  };
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
-    data?.results.find(
-      (movie) => String(movie.id) === bigMovieMatch.params.movieId
-    );
+    data?.find((movie) => String(movie.id) === bigMovieMatch.params.movieId);
   return (
     <div>
       <AnimatePresence>

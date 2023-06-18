@@ -1,5 +1,10 @@
 import { useQuery } from "react-query";
-import { IGetMoviesResult, getMovies } from "../api";
+import {
+  IGetMoviesResult,
+  getMovies,
+  getTopRatedMovies,
+  getUpcomingMovies,
+} from "../api";
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import Slider from "../Components/Slider";
@@ -38,23 +43,36 @@ const Overview = styled.p`
 `;
 
 export default function Home() {
-  const { data, isLoading } = useQuery<IGetMoviesResult>(
-    ["movies", "nowPlaying"],
-    getMovies
-  );
-
+  const { data: latestMovies, isLoading: isLatestMoviesLoading } =
+    useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
+  const { data: topRatedMovies, isLoading: isTopRatedMovies } =
+    useQuery<IGetMoviesResult>(["movies", "topRated"], getTopRatedMovies);
+  const { data: upcomingMovies, isLoading: isUpcomingMovies } =
+    useQuery<IGetMoviesResult>(["movies", "upcoming"], getUpcomingMovies);
   return (
     <Wrapper>
-      {isLoading ? (
+      {isLatestMoviesLoading || isTopRatedMovies || isUpcomingMovies ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
-            <Title>{data?.results[0].title}</Title>
-            <Overview>{data?.results[0].overview}</Overview>
+          <Banner
+            bgPhoto={makeImagePath(
+              latestMovies?.results[0].backdrop_path || ""
+            )}
+          >
+            <Title>{latestMovies?.results[0].title}</Title>
+            <Overview>{latestMovies?.results[0].overview}</Overview>
           </Banner>
-          <Slider data={data} />
-          <ContentsBox data={data} />
+          <Slider title="Latest Movies" data={latestMovies} />
+          <Slider title="Top Rated Movies" data={topRatedMovies} />
+          <Slider title="Upcoming Movies" data={upcomingMovies} />
+          <ContentsBox
+            data={[
+              ...(latestMovies?.results || []),
+              ...(topRatedMovies?.results || []),
+              ...(upcomingMovies?.results || []),
+            ]}
+          />
         </>
       )}
     </Wrapper>

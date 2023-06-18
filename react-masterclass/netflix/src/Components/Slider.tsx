@@ -7,7 +7,15 @@ import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   position: relative;
-  top: -200px;
+  top: -300px;
+  height: 250px;
+  margin-bottom: 100px;
+`;
+
+const Title = styled.h2`
+  color: white;
+  font-size: 30px;
+  margin: 15px 20px;
 `;
 
 const Row = styled(motion.div)`
@@ -44,6 +52,25 @@ const Info = styled(motion.div)`
   h4 {
     text-align: center;
     font-size: 18px;
+  }
+`;
+
+const SlideButton = styled.button`
+  position: absolute;
+  top: 20;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  transform: translate(-100%, 0%);
+  z-index: 99;
+  width: 40px;
+  height: 200px;
+  background-color: transparent;
+  color: white;
+  font-size: 36px;
+  border: none;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -87,7 +114,13 @@ const infoVariants = {
 
 const offset = 6;
 
-export default function Slider({ data }: { data?: IGetMoviesResult }) {
+export default function Slider({
+  data,
+  title,
+}: {
+  data?: IGetMoviesResult;
+  title: string;
+}) {
   const history = useHistory();
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -107,6 +140,7 @@ export default function Slider({ data }: { data?: IGetMoviesResult }) {
   return (
     <div>
       <Wrapper>
+        <Title>{title}</Title>
         <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
           <Row
             variants={rowVariants}
@@ -121,7 +155,7 @@ export default function Slider({ data }: { data?: IGetMoviesResult }) {
               .slice(offset * index, offset * index + offset)
               .map((movie) => (
                 <Box
-                  layoutId={movie.id + ""}
+                  layoutId={String(movie.id)}
                   key={movie.id}
                   whileHover="hover"
                   initial="normal"
@@ -139,6 +173,7 @@ export default function Slider({ data }: { data?: IGetMoviesResult }) {
               ))}
           </Row>
         </AnimatePresence>
+        <SlideButton onClick={increaseIndex}>{">"}</SlideButton>
       </Wrapper>
     </div>
   );
