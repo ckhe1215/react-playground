@@ -1,5 +1,5 @@
-import { animate, motion, useAnimation, useScroll } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import { motion, useAnimation, useScroll } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
