@@ -27,13 +27,12 @@ const Row = styled(motion.div)`
 `;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  background-color: white;
+  background-color: black;
   background-image: url(${(props) => props.bgPhoto});
   background-size: cover;
   background-position: center center;
   height: 200px;
   font-size: 66px;
-  position: relative;
   cursor: pointer;
   &:first-child {
     transform-origin: center left;

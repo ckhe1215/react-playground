@@ -7,6 +7,7 @@ export interface IMovie {
   poster_path: string;
   title: string;
   overview: string;
+  name: string;
 }
 
 export interface IGetMoviesResult {
@@ -34,6 +35,36 @@ export function getTopRatedMovies() {
 
 export function getUpcomingMovies() {
   return fetch(`${BASE_PATH}/movie/upcoming?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getLatestTvs() {
+  return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getTopRatedTvs() {
+  return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getPopularTvs() {
+  return fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}`).then((response) =>
+    response.json()
+  );
+}
+
+export function getSearchMovies(query: string) {
+  return fetch(
+    `${BASE_PATH}/search/movie?query=${query}&api_key=${API_KEY}`
+  ).then((response) => response.json());
+}
+
+export function getSearchTvs(query: string) {
+  return fetch(`${BASE_PATH}/search/tv?query=${query}&api_key=${API_KEY}`).then(
     (response) => response.json()
   );
 }
