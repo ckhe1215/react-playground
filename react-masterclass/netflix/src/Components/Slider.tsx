@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   position: relative;
-  top: -300px;
+  top: -200px;
   height: 250px;
   margin-bottom: 100px;
 `;
@@ -33,6 +33,7 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-position: center center;
   height: 200px;
   font-size: 66px;
+  position: relative;
   cursor: pointer;
   &:first-child {
     transform-origin: center left;
